@@ -37,35 +37,37 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
     }
 
     public func shareMeSystem(title: String, url: String, description: String?, subject: String?) {
-        let viewController = UIApplication.shared.delegate?.window??.rootViewController
-        var activityItems: [Any] = [title]
-        if let description = description {
-            activityItems.append(description)
-        }
-        if let url = URL(string: url) {
-            activityItems.append(url)
-        }
-        
-        if let subject = subject, UIApplication.shared.canOpenURL(URL(string: "mailto:")!) {
-            activityItems.append(subject)
-        }
-        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        if let popoverPresentationController = activityViewController.popoverPresentationController {
-            popoverPresentationController.sourceView = viewController?.view
-            popoverPresentationController.sourceRect = CGRect(x: (viewController?.view.bounds.midX)!, y: (viewController?.view.bounds.midY)!, width: 0, height: 0)
-            popoverPresentationController.permittedArrowDirections = []
-        }
-        activityViewController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
-            if completed && activityType == UIActivity.ActivityType.copyToPasteboard {
-                UIPasteboard.general.string = description // Copiar solo el contenido de description al seleccionar copiar
-            } else if completed && (activityType?.rawValue == "com.apple.mobilenotes.SharingExtension" || activityType?.rawValue == "com.apple.reminders.RemindersEditorExtension") {
-                if let description = description {
-                    UIPasteboard.general.string = description // Establecer el valor de "description" en el campo "description" de Notes o Reminders
-                }
+    let viewController = UIApplication.shared.delegate?.window??.rootViewController
+    var activityItems: [Any] = []
+    if let description = description {
+        // Agregar el título a la descripción si existe
+        let fullDescription = title + "\n" + description
+        activityItems.append(fullDescription)
+    }
+    if let url = URL(string: url) {
+        activityItems.append(url)
+    }
+    if let subject = subject, UIApplication.shared.canOpenURL(URL(string: "mailto:")!) {
+        activityItems.append(subject)
+    }
+    let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    if let popoverPresentationController = activityViewController.popoverPresentationController {
+        popoverPresentationController.sourceView = viewController?.view
+        popoverPresentationController.sourceRect = CGRect(x: (viewController?.view.bounds.midX)!, y: (viewController?.view.bounds.midY)!, width: 0, height: 0)
+        popoverPresentationController.permittedArrowDirections = []
+    }
+    activityViewController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
+        if completed && activityType == UIActivity.ActivityType.copyToPasteboard {
+            UIPasteboard.general.string = description // Copiar solo el contenido de description al seleccionar copiar
+        } else if completed && (activityType?.rawValue == "com.apple.mobilenotes.SharingExtension" || activityType?.rawValue == "com.apple.reminders.RemindersEditorExtension") {
+            if let description = description {
+                UIPasteboard.general.string = description // Establecer el valor de "description" en el campo "description" de Notes o Reminders
             }
         }
-        viewController?.present(activityViewController, animated: true, completion: nil)
     }
+    viewController?.present(activityViewController, animated: true, completion: nil)
+}
+
 
     public func shareMeFile(title: String, file: UIImage) {
     let activityViewController = UIActivityViewController(activityItems: [title, file], applicationActivities: nil)
