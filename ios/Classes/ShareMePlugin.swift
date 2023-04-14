@@ -10,24 +10,33 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if call.method == "share_me" {
+        if call.method == "share_me_system" {
             if let args = call.arguments as? [String: Any],
                 let title = args["title"] as? String,
                 let url = args["url"] as? String {
                 let description = args["description"] as? String
-                let file = args["file"] as? String
                 let subject = args["subject"] as? String
-                self.shareMe(title: title, url: url, description: description, file: file, subject: subject)
+                self.shareMeSystem(title: title, url: url, description: description, subject: subject)
                 result(true)
             } else {
                 result(false)
             }
-        } else {
-            result(FlutterMethodNotImplemented)
-        }
+        } else if call.method == "share_me_file" {
+            if let args = call.arguments as? [String: Any],
+                let title = args["title"] as? String,
+                   let fileData = args["file"] as? FlutterStandardTypedData,
+                   let file = UIImage(data: fileData.data) {
+                    self.shareMeFile(title: title, file: file)
+                    result(nil)
+                } else {
+                    result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
+                }
+            } else {
+                result(FlutterMethodNotImplemented)
+            }
     }
 
-    public func shareMe(title: String, url: String, description: String?, file: String?, subject: String?) {
+    public func shareMeSystem(title: String, url: String, description: String?, subject: String?) {
         let viewController = UIApplication.shared.delegate?.window??.rootViewController
         var activityItems: [Any] = [title]
         if let description = description {
@@ -36,9 +45,7 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
         if let url = URL(string: url) {
             activityItems.append(url)
         }
-        if let file = file {
-            activityItems.append(URL(fileURLWithPath: file))
-        }
+        
         if let subject = subject, UIApplication.shared.canOpenURL(URL(string: "mailto:")!) {
             activityItems.append(subject)
         }
@@ -59,4 +66,24 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
         }
         viewController?.present(activityViewController, animated: true, completion: nil)
     }
+
+    public func shareMeFile(title: String, file: UIImage) {
+    let activityViewController = UIActivityViewController(activityItems: [title, file], applicationActivities: nil)
+    activityViewController.popoverPresentationController?.sourceView = UIApplication.shared.keyWindow?.rootViewController?.view
+    let viewController = UIApplication.shared.keyWindow?.rootViewController
+    if let popoverPresentationController = activityViewController.popoverPresentationController {
+        popoverPresentationController.sourceView = viewController?.view
+        popoverPresentationController.sourceRect = CGRect(x: viewController?.view.bounds.midX ?? 0, y: viewController?.view.bounds.midY ?? 0, width: 0, height: 0)
+        popoverPresentationController.permittedArrowDirections = []
+    }
+    activityViewController.completionWithItemsHandler = { _, _, _, _ in
+        // Verificar si la actividad fue para guardar en la galería
+        if UIActivity.ActivityType.saveToCameraRoll != nil {
+            // Guardar la imagen en la galería
+            UIImageWriteToSavedPhotosAlbum(file, nil, nil, nil)
+        }
+    }
+    viewController?.present(activityViewController, animated: true, completion: nil)
+}
+
 }

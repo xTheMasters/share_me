@@ -9,16 +9,26 @@ class ShareMe {
     required String url,
     String? description,
     String? subject,
-    List<String>? files,
   }) async {
     Map<String, dynamic> args = {
       'title': title,
       'url': url,
       'description': description,
       'subject': subject,
-      'files': files,
     };
 
-    await _channel.invokeMethod('share_me', args);
+    await _channel.invokeMethod('share_me_system', args);
+  }
+
+  static Future<void> file({
+    required String title,
+    required Uint8List file,
+  }) async {
+    Map<String, dynamic> args = {
+      'title': title,
+      'file': file,
+    };
+
+    await _channel.invokeMethod('share_me_file', args);
   }
 }

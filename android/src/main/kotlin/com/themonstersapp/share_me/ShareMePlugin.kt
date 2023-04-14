@@ -18,6 +18,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
 class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
 
@@ -49,13 +53,19 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
-            "share_me" -> {
+            "share_me_system" -> {
                 val title = call.argument<String>("title")
                 val url = call.argument<String>("url")
                 val description = call.argument<String>("description")
                 val subject = call.argument<String>("subject")
                 val files = call.argument<List<String>>("files")
                 share(title, url, description, subject, files)
+                result.success(null)
+            }
+            "share_me_file" -> {
+                val title = call.argument<String>("title")
+                val byteArray = call.argument<ByteArray>("file")
+                shareFile(title, byteArray)
                 result.success(null)
             }
             else -> {
@@ -90,6 +100,25 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
             intent.putExtra(EXTRA_STREAM, uris)
         }
 
+        val chooserIntent = Intent.createChooser(intent, "Share")
+        chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(chooserIntent)
+    }
+
+    private fun shareFile(title: String?, byteArray: ByteArray?) {
+        val file = File(context.cacheDir, "shared_file.jpg")
+        file.createNewFile()
+        val fileOutputStream = FileOutputStream(file)
+        fileOutputStream.write(byteArray)
+        fileOutputStream.flush()
+        fileOutputStream.close()
+
+        val fileUri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
+
+        val intent = Intent(ACTION_SEND)
+        intent.type = "image/jpeg"
+        intent.putExtra(EXTRA_TITLE, title)
+        intent.putExtra(EXTRA_STREAM, fileUri)
         val chooserIntent = Intent.createChooser(intent, "Share")
         chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(chooserIntent)
