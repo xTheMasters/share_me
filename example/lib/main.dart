@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_me/share_me.dart';
-import 'package:http/http.dart' as http;
-import 'dart:typed_data';
 
 void main() {
   runApp(const MyApp());

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'dart:convert';
 
 class ShareMe {
   static const MethodChannel _channel = MethodChannel('share_me');
