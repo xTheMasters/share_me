@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_me/share_me.dart';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
@@ -42,6 +44,22 @@ class ShareMeApp extends StatefulWidget {
 }
 
 class _ShareMeAppState extends State<ShareMeApp> {
+  void shareMe(String url) async {
+    final String urlImage = url;
+    final byteData =
+        await NetworkAssetBundle(Uri.parse(urlImage)).load(urlImage);
+
+    final imageData = byteData.buffer.asUint8List();
+    final name = urlImage.split('/').last;
+    const mimeType = 'image/jpeg';
+    XFile.fromData(imageData, name: name, mimeType: mimeType);
+    ShareMe.file(
+      name: name,
+      mimeType: mimeType,
+      imageData: imageData,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,19 +84,8 @@ class _ShareMeAppState extends State<ShareMeApp> {
                 child: const Text('Share'),
               ),
               ElevatedButton(
-                onPressed: () async {
-                  http.Response response = await http.get(
-                    Uri.parse(
-                      'https://themonstersapp.com/images/bg-static.jpg',
-                    ),
-                  );
-                  if (response.statusCode == 200) {
-                    Uint8List imageData = response.bodyBytes;
-                    await ShareMe.file(
-                      file: imageData,
-                      title: 'Compartir imagen de ejemplo',
-                    );
-                  }
+                onPressed: () {
+                  shareMe('https://themonstersapp.com/images/bg-static.jpg');
                 },
                 child: const Text('Share Image'),
               ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 
 class ShareMe {
   static const MethodChannel _channel = MethodChannel('share_me');
@@ -21,12 +22,17 @@ class ShareMe {
   }
 
   static Future<void> file({
-    required String title,
-    required Uint8List file,
+    required String name,
+    required String mimeType,
+    required Uint8List imageData,
   }) async {
+    assert(name.isNotEmpty, "El nombre del archivo no puede ser nulo o vacío.");
+    assert(mimeType.isNotEmpty, "El tipo MIME no puede ser nulo o vacío.");
+
     Map<String, dynamic> args = {
-      'title': title,
-      'file': file,
+      'name': name,
+      'mimeType': mimeType,
+      'imageData': imageData,
     };
 
     await _channel.invokeMethod('share_me_file', args);
