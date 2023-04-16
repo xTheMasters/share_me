@@ -74,7 +74,7 @@ This will open the default native share options
 
 ![iOS share demo](gifsdemo/iosgif.gif)
 
-## ## Story share on Instagram
+## Story share on Instagram
 
 ![Android share demo](gifsdemo/androidgift.gif)
 
