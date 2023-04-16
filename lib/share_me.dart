@@ -37,29 +37,4 @@ class ShareMe {
 
     await _channel.invokeMethod('share_me_file', args);
   }
-
-  static Future<void> files({
-    required String name,
-    required String mimeType,
-    required List<Uint8List> imageDataList,
-  }) async {
-    assert(name.isNotEmpty, "El nombre del archivo no puede ser nulo o vacío.");
-    assert(mimeType.isNotEmpty, "El tipo MIME no puede ser nulo o vacío.");
-
-    List<Uint8List> imageDataListCopy = List.from(imageDataList);
-    List<String> imageDataListBase64 = [];
-
-    for (Uint8List imageData in imageDataListCopy) {
-      String imageDataBase64 = base64Encode(imageData);
-      imageDataListBase64.add(imageDataBase64);
-    }
-
-    Map<String, dynamic> args = {
-      'name': name,
-      'mimeType': mimeType,
-      'imageData': imageDataListBase64,
-    };
-
-    await _channel.invokeMethod('share_me_files', args);
-  }
 }

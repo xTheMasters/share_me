@@ -1,3 +1,3 @@
-## 0.0.5
+## 0.0.6
 
-* Fix issue when try to share file in Android and Fix app crash when use iPad.
+* Fix issue with Android devices.
