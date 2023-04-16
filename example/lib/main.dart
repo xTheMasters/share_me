@@ -43,14 +43,12 @@ class ShareMeApp extends StatefulWidget {
 
 class _ShareMeAppState extends State<ShareMeApp> {
   void shareMe(String url) async {
-    final String urlImage = url;
-    final byteData =
-        await NetworkAssetBundle(Uri.parse(urlImage)).load(urlImage);
-
+    final byteData = await NetworkAssetBundle(Uri.parse(url)).load(url);
     final imageData = byteData.buffer.asUint8List();
-    final name = urlImage.split('/').last;
+    final name = url.split('/').last;
     const mimeType = 'image/jpeg';
     XFile.fromData(imageData, name: name, mimeType: mimeType);
+
     ShareMe.file(
       name: name,
       mimeType: mimeType,
@@ -67,8 +65,8 @@ class _ShareMeAppState extends State<ShareMeApp> {
         ),
         body: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: () async {
@@ -85,7 +83,7 @@ class _ShareMeAppState extends State<ShareMeApp> {
                 onPressed: () {
                   shareMe('https://themonstersapp.com/images/bg-static.jpg');
                 },
-                child: const Text('Share Image'),
+                child: const Text('Share File'),
               ),
             ],
           ),

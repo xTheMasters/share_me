@@ -105,6 +105,15 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
 
             if let viewController = UIApplication.shared.keyWindow?.rootViewController {
                 viewController.present(activityViewController, animated: true, completion: nil)
+
+                // Configuración de presentación en forma de popover en un iPad
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    if let popoverPresentationController = activityViewController.popoverPresentationController {
+                        popoverPresentationController.sourceView = viewController.view
+                        popoverPresentationController.sourceRect = CGRect(x: viewController.view.bounds.midX, y: viewController.view.bounds.midY, width: 0, height: 0)
+                        popoverPresentationController.permittedArrowDirections = []
+                    }
+                }
             }
         }
     }

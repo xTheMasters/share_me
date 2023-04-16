@@ -61,11 +61,12 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
                 val files = call.argument<List<String>>("files")
                 share(title, url, description, subject, files)
                 result.success(null)
-            }
-            "share_me_file" -> {
-                val title = call.argument<String>("title")
-                val byteArray = call.argument<ByteArray>("file")
-                shareFile(title, byteArray)
+            }            
+            "share_me_file" -> { // Nuevo método agregado
+                val name = call.argument<String>("name")
+                val mimeType = call.argument<String>("mimeType")
+                val imageData = call.argument<ByteArray>("imageData")
+                shareFile(name, mimeType, imageData)
                 result.success(null)
             }
             else -> {
@@ -105,22 +106,24 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
         context.startActivity(chooserIntent)
     }
 
-    private fun shareFile(title: String?, byteArray: ByteArray?) {
-        val file = File(context.cacheDir, "shared_file.jpg")
+    private fun shareFile(name: String?, mimeType: String?, imageData: ByteArray?) {
+        val file = File(context.cacheDir, name)
         file.createNewFile()
         val fileOutputStream = FileOutputStream(file)
-        fileOutputStream.write(byteArray)
+        fileOutputStream.write(imageData)
         fileOutputStream.flush()
         fileOutputStream.close()
-
+    
         val fileUri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
-
+    
         val intent = Intent(ACTION_SEND)
-        intent.type = "image/jpeg"
-        intent.putExtra(EXTRA_TITLE, title)
+        intent.type = mimeType
+        intent.putExtra(EXTRA_TITLE, name)
         intent.putExtra(EXTRA_STREAM, fileUri)
         val chooserIntent = Intent.createChooser(intent, "Share")
         chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(chooserIntent)
     }
+    
+    
 }
