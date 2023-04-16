@@ -1,13 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.themonstersapp.share_me_example">
     <application android:label="share_me_example" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-        <provider 
-        android:name="androidx.core.content.FileProvider" 
-        android:authorities="${applicationId}.fileprovider" 
-        android:exported="false" 
-        android:grantUriPermissions="true">
-        tools:replace="android:authorities">
-        <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
-        </provider>
+       <provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="${applicationId}.fileprovider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/file_paths" /> <!-- Reemplaza @xml/file_paths con la ubicación de tu archivo de configuración de FileProvider -->
+</provider>
 
         
 
