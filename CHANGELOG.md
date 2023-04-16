@@ -2,7 +2,7 @@
 
 - fix issue when user try to build release for android
 
-## .0.3
+## 0.0.3
 
 - fix issue when try to share file in android and iOS devices
 
