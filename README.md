@@ -60,14 +60,6 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
     <string>Need gallery permissions</string>
 ```
 
-
-
-This will open the default native share options
-
-```
-
-```
-
 # Here's few demo!
 
 ## Share on iOS
