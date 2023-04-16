@@ -70,11 +70,11 @@ This will open the default native share options
 
 # Here's few demo!
 
-
+## Share on iOS
 
 ![iOS share demo](gifsdemo/iosgif.gif)
 
-## Story share on Facebook
+## ## Story share on Instagram
 
 ![Android share demo](gifsdemo/androidgift.gif)
 
