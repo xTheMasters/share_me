@@ -1,3 +1,7 @@
+## 0.0.12
+
+- fix issue
+
 ## 0.0.11
 
 - fix issue when user try to build release for android
