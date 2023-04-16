@@ -29,7 +29,7 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
 #### Add this piece of code in the `manifest/application` in the `android/app/src/main/AndroidManifest.xml`:
 
 ```
-<provider android:name="androidx.core.content.FileProvider" 
+    <provider android:name="androidx.core.content.FileProvider" 
             android:authorities="${applicationId}.fileprovider" 
             android:exported="false" 
             android:grantUriPermissions="true" 
