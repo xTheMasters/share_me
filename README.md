@@ -37,7 +37,7 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
             <meta-data 
                 android:name="android.support.FILE_PROVIDER_PATHS" 
                 android:resource="@xml/file_paths"/>
-        </provider>
+    </provider>
 ```
 
 #### Create a xml file named `file_paths.xml` in the `app/src/main/res/xml` folder and paste this code in the file :
@@ -56,8 +56,8 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
 #### Add this to your `Info.plist` to use ShareMe.file()
 
 ```
-        <key>NSPhotoLibraryUsageDescription</key>
-            <string>Need gallery permissions</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Need gallery permissions</string>
 ```
 
 

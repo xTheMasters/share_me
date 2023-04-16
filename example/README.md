@@ -29,7 +29,7 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
 #### Add this piece of code in the `manifest/application` in the `android/app/src/main/AndroidManifest.xml`:
 
 ```
- 		<provider android:name="androidx.core.content.FileProvider" 
+    <provider android:name="androidx.core.content.FileProvider" 
             android:authorities="${applicationId}.fileprovider" 
             android:exported="false" 
             android:grantUriPermissions="true" 
@@ -37,7 +37,7 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
             <meta-data 
                 android:name="android.support.FILE_PROVIDER_PATHS" 
                 android:resource="@xml/file_paths"/>
-        </provider>
+    </provider>
 ```
 
 #### Create a xml file named `file_paths.xml` in the `app/src/main/res/xml` folder and paste this code in the file :
@@ -56,8 +56,8 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
 #### Add this to your `Info.plist` to use ShareMe.file()
 
 ```
-        <key>NSPhotoLibraryUsageDescription</key>
-            <string>Need gallery permissions</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Need gallery permissions</string>
 ```
 
 
@@ -70,11 +70,11 @@ This will open the default native share options
 
 # Here's few demo!
 
-
+## Share on iOS
 
 ![iOS share demo](gifsdemo/iosgif.gif)
 
-## Story share on Facebook
+## Story share on Instagram
 
 ![Android share demo](gifsdemo/androidgift.gif)
 
