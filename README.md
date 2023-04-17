@@ -64,11 +64,11 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
 
 ## Share on iOS
 
-![iOS share demo](gifsdemo/iosgif.gif)
+![iOS share demo]<img src="https://themonstersapp.com/images/iosgif.gif?raw=true">
 
 ## Share on Android
 
-![Android share demo](gifsdemo/androidgift.gif)
+![Android share demo]<img src="https://themonstersapp.com/images/androidgift.gif?raw=true">
 
 # Buy me a :coffee: !!
 

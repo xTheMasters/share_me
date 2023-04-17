@@ -1,3 +1,6 @@
+## 0.0.13
+
+- fix error app crash after share menu open in Android Device
 ## 0.0.12
 
 - fix issue
