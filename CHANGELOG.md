@@ -1,3 +1,7 @@
+## 0.0.14
+
+- fix issue when try to save img in iOS now img save it with correct extension
+
 ## 0.0.13
 
 - fix error app crash after share menu open in Android Device

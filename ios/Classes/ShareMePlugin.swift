@@ -89,30 +89,27 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
 
     public func shareMeFile(name: String, mimeType _: String, imageData: FlutterStandardTypedData) {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let tempImagePath = (documentDirectory as NSString).appendingPathComponent("\(name).jpeg")
-        let image = UIImage(data: imageData.data)
-        let jpegData = image?.jpegData(compressionQuality: 1.0)
+        let tempImagePath = (documentDirectory as NSString).appendingPathComponent("\(name)")
+        FileManager.default.createFile(atPath: tempImagePath, contents: imageData.data, attributes: nil)
 
-        if FileManager.default.createFile(atPath: tempImagePath, contents: jpegData, attributes: nil) {
-            let activityViewController = UIActivityViewController(activityItems: [URL(fileURLWithPath: tempImagePath)], applicationActivities: nil)
-            activityViewController.completionWithItemsHandler = { _, _, _, _ in
-                do {
-                    try FileManager.default.removeItem(atPath: tempImagePath)
-                } catch {
-                    print("Error al eliminar la imagen temporal: \(error.localizedDescription)")
-                }
+        let activityViewController = UIActivityViewController(activityItems: [URL(fileURLWithPath: tempImagePath)], applicationActivities: nil)
+        activityViewController.completionWithItemsHandler = { _, _, _, _ in
+            do {
+                try FileManager.default.removeItem(atPath: tempImagePath)
+            } catch {
+                print("Error al eliminar la imagen temporal: \(error.localizedDescription)")
             }
+        }
 
-            if let viewController = UIApplication.shared.keyWindow?.rootViewController {
-                viewController.present(activityViewController, animated: true, completion: nil)
+        if let viewController = UIApplication.shared.keyWindow?.rootViewController {
+            viewController.present(activityViewController, animated: true, completion: nil)
 
-                // Configuración de presentación en forma de popover en un iPad
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    if let popoverPresentationController = activityViewController.popoverPresentationController {
-                        popoverPresentationController.sourceView = viewController.view
-                        popoverPresentationController.sourceRect = CGRect(x: viewController.view.bounds.midX, y: viewController.view.bounds.midY, width: 0, height: 0)
-                        popoverPresentationController.permittedArrowDirections = []
-                    }
+            // Configuración de presentación en forma de popover en un iPad
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                if let popoverPresentationController = activityViewController.popoverPresentationController {
+                    popoverPresentationController.sourceView = viewController.view
+                    popoverPresentationController.sourceRect = CGRect(x: viewController.view.bounds.midX, y: viewController.view.bounds.midY, width: 0, height: 0)
+                    popoverPresentationController.permittedArrowDirections = []
                 }
             }
         }
