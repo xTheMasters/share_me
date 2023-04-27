@@ -63,10 +63,10 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
         }
         activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
             if completed && activityType == UIActivity.ActivityType.copyToPasteboard {
-                UIPasteboard.general.string = description // Copiar solo el contenido de description al seleccionar copiar
+                UIPasteboard.general.string = description 
             } else if completed && (activityType?.rawValue == "com.apple.mobilenotes.SharingExtension" || activityType?.rawValue == "com.apple.reminders.RemindersEditorExtension") {
                 if let description = description {
-                    UIPasteboard.general.string = description // Establecer el valor de "description" en el campo "description" de Notes o Reminders
+                    UIPasteboard.general.string = description 
                 }
             } else if completed && activityType == UIActivity.ActivityType.mail {
                 if !MFMailComposeViewController.canSendMail() {
@@ -75,11 +75,11 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
                     viewController?.present(alertMsg, animated: true, completion: nil)
                 } else {
                     let emailController = MFMailComposeViewController()
-                    emailController.setToRecipients(["mail@egmail.com"]) // Establecer destinatarios
-                    emailController.setSubject(subject ?? "") // Establecer el valor de "subject" en el asunto del correo, si está disponible
-                    emailController.mailComposeDelegate = viewController as? MFMailComposeViewControllerDelegate // Asignar el delegado para el correo electrónico
-                    emailController.setMessageBody(description ?? "", isHTML: false) // Establecer el cuerpo del correo, si está disponible
-                    emailController.setValue(subject, forKey: "subject") // Establecer el valor de "subject" en el asunto del correo
+                    emailController.setToRecipients(["mail@egmail.com"])
+                    emailController.setSubject(subject ?? "") 
+                    emailController.mailComposeDelegate = viewController as? MFMailComposeViewControllerDelegate 
+                    emailController.setMessageBody(description ?? "", isHTML: false) 
+                    emailController.setValue(subject, forKey: "subject") 
                     viewController?.present(emailController, animated: true, completion: nil)
                 }
             }
@@ -103,8 +103,7 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             viewController.present(activityViewController, animated: true, completion: nil)
-
-            // Configuración de presentación en forma de popover en un iPad
+            
             if UIDevice.current.userInterfaceIdiom == .pad {
                 if let popoverPresentationController = activityViewController.popoverPresentationController {
                     popoverPresentationController.sourceView = viewController.view
