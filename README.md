@@ -62,11 +62,11 @@ Two options are provided at the moment: ShareMe.system() and ShareMe.file()
 
 # Here's few demo!
 
-## Share on iOS
+## Share on iOS Example
 
 <img src="https://themonstersapp.com/images/iosgif.gif?raw=true">
 
-## Share on Android
+## Share on Android Example
 
 <img src="https://themonstersapp.com/images/androidgift.gif?raw=true">
 

@@ -1,3 +1,7 @@
+## 0.0.16
+
+- fix minor issue
+
 ## 0.0.15
 
 - fix issue with code
