@@ -1,3 +1,6 @@
+## 0.0.17
+
+- fix issue when try to share to WhatsApp in Android devices
 ## 0.0.16
 
 - fix minor issue

@@ -58,9 +58,8 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
                 val title = call.argument<String>("title")
                 val url = call.argument<String>("url")
                 val description = call.argument<String>("description")
-                val subject = call.argument<String>("subject")
-                val files = call.argument<List<String>>("files")
-                share(title, url, description, subject, files)
+                val subject = call.argument<String>("subject")               
+                share(title, url, description, subject)
                 result.success(null)
             }            
             "share_me_file" -> { // Nuevo método agregado
@@ -76,13 +75,12 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
         }
     }
 
-    private fun share(title: String?, url: String?, description: String?, subject: String?, files: List<String>?) {
+    private fun share(title: String?, url: String?, description: String?, subject: String?) {
         val intent = Intent(ACTION_SEND)
-        intent.type = "*/*"
+        intent.type = "text/plain"
         intent.putExtra(EXTRA_TITLE, title)
         intent.putExtra(EXTRA_SUBJECT, subject)
-
-        // Concatenar la descripción y la URL en el mensaje
+       
         var message = ""
         if (!description.isNullOrEmpty()) {
             message += "$description\n"
@@ -90,17 +88,7 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
         if (!url.isNullOrEmpty()) {
             message += "$url"
         }
-        intent.putExtra(EXTRA_TEXT, message)
-
-        if (files != null && files.isNotEmpty()) {
-            val uris = ArrayList<Uri>()
-            for (filePath in files) {
-                val file = File(filePath)
-                val fileUri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
-                uris.add(fileUri)
-            }
-            intent.putExtra(EXTRA_STREAM, uris)
-        }
+        intent.putExtra(EXTRA_TEXT, message)      
 
         val chooserIntent = Intent.createChooser(intent, "Share")
         chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
