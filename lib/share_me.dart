@@ -23,7 +23,7 @@ class ShareMe {
   static Future<void> file({
     required String name,
     required String mimeType,
-    required Uint8List imageData,
+    required Uint8List file,
   }) async {
     assert(name.isNotEmpty, "El nombre del archivo no puede ser nulo o vacío.");
     assert(mimeType.isNotEmpty, "El tipo MIME no puede ser nulo o vacío.");
@@ -31,7 +31,7 @@ class ShareMe {
     Map<String, dynamic> args = {
       'name': name,
       'mimeType': mimeType,
-      'imageData': imageData,
+      'file': file,
     };
 
     await _channel.invokeMethod('share_me_file', args);

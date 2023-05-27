@@ -46,14 +46,13 @@ class _ShareMeAppState extends State<ShareMeApp> {
     final byteData = await NetworkAssetBundle(Uri.parse(url)).load(url);
     final imageData = byteData.buffer.asUint8List();
     final name = url.split('/').last;
-    final mimeType =
-        'image/${name.split('.').last}'; // Obtener la extensión del archivo de la URL
+    final mimeType = 'image/${name.split('.').last}';
     XFile.fromData(imageData, name: name, mimeType: mimeType);
 
     ShareMe.file(
       name: name,
       mimeType: mimeType,
-      imageData: imageData,
+      file: imageData,
     );
   }
 

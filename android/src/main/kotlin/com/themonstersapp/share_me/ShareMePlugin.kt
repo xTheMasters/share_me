@@ -65,8 +65,8 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
             "share_me_file" -> { // Nuevo método agregado
                 val name = call.argument<String>("name")
                 val mimeType = call.argument<String>("mimeType")
-                val imageData = call.argument<ByteArray>("imageData")
-                shareFile(name, mimeType, imageData)
+                val file = call.argument<ByteArray>("file")
+                shareFile(name, mimeType, file)
                 result.success(null)
             }
             else -> {
@@ -95,15 +95,15 @@ class ShareMePlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
         context.startActivity(chooserIntent)
     }
 
-    private fun shareFile(name: String?, mimeType: String?, imageData: ByteArray?) {
-        val file = File(context.cacheDir, name)
-        file.createNewFile()
-        val fileOutputStream = FileOutputStream(file)
-        fileOutputStream.write(imageData)
+    private fun shareFile(name: String?, mimeType: String?, file: ByteArray?) {
+        val xfile = File(context.cacheDir, name)
+        xfile.createNewFile()
+        val fileOutputStream = FileOutputStream(xfile)
+        fileOutputStream.write(file)
         fileOutputStream.flush()
         fileOutputStream.close()
     
-        val fileUri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
+        val fileUri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", xfile)
     
         val intent = Intent(ACTION_SEND)
         intent.type = mimeType

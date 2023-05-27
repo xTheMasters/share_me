@@ -28,9 +28,9 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
             if let args = call.arguments as? [String: Any],
                let name = args["name"] as? String,
                let mimeType = args["mimeType"] as? String,
-               let imageData = args["imageData"] as? FlutterStandardTypedData
+               let file = args["file"] as? FlutterStandardTypedData
             {
-                shareMeFile(name: name, mimeType: mimeType, imageData: imageData)
+                shareMeFile(name: name, mimeType: mimeType, file: file)
                 result(nil)
             } else {
                 result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
@@ -63,10 +63,10 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
         }
         activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
             if completed && activityType == UIActivity.ActivityType.copyToPasteboard {
-                UIPasteboard.general.string = description 
+                UIPasteboard.general.string = description
             } else if completed && (activityType?.rawValue == "com.apple.mobilenotes.SharingExtension" || activityType?.rawValue == "com.apple.reminders.RemindersEditorExtension") {
                 if let description = description {
-                    UIPasteboard.general.string = description 
+                    UIPasteboard.general.string = description
                 }
             } else if completed && activityType == UIActivity.ActivityType.mail {
                 if !MFMailComposeViewController.canSendMail() {
@@ -76,10 +76,10 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
                 } else {
                     let emailController = MFMailComposeViewController()
                     emailController.setToRecipients(["mail@egmail.com"])
-                    emailController.setSubject(subject ?? "") 
-                    emailController.mailComposeDelegate = viewController as? MFMailComposeViewControllerDelegate 
-                    emailController.setMessageBody(description ?? "", isHTML: false) 
-                    emailController.setValue(subject, forKey: "subject") 
+                    emailController.setSubject(subject ?? "")
+                    emailController.mailComposeDelegate = viewController as? MFMailComposeViewControllerDelegate
+                    emailController.setMessageBody(description ?? "", isHTML: false)
+                    emailController.setValue(subject, forKey: "subject")
                     viewController?.present(emailController, animated: true, completion: nil)
                 }
             }
@@ -87,10 +87,10 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
         viewController?.present(activityViewController, animated: true, completion: nil)
     }
 
-    public func shareMeFile(name: String, mimeType _: String, imageData: FlutterStandardTypedData) {
+    public func shareMeFile(name: String, mimeType _: String, file: FlutterStandardTypedData) {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let tempImagePath = (documentDirectory as NSString).appendingPathComponent("\(name)")
-        FileManager.default.createFile(atPath: tempImagePath, contents: imageData.data, attributes: nil)
+        FileManager.default.createFile(atPath: tempImagePath, contents: file.data, attributes: nil)
 
         let activityViewController = UIActivityViewController(activityItems: [URL(fileURLWithPath: tempImagePath)], applicationActivities: nil)
         activityViewController.completionWithItemsHandler = { _, _, _, _ in
@@ -103,7 +103,7 @@ public class ShareMePlugin: NSObject, FlutterPlugin {
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             viewController.present(activityViewController, animated: true, completion: nil)
-            
+
             if UIDevice.current.userInterfaceIdiom == .pad {
                 if let popoverPresentationController = activityViewController.popoverPresentationController {
                     popoverPresentationController.sourceView = viewController.view
