@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:share_me/share_me_platform_interface.dart';
 
 class ShareMe {
   static const MethodChannel _channel = MethodChannel('share_me');
+  Future<String?> getPlatformVersion() {
+    return ShareMePlatform.instance.getPlatformVersion();
+  }
 
   static Future<void> system({
     required String title,

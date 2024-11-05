@@ -1,12 +1,12 @@
 name: share_me
 description: ShareMe is a Flutter plugin that allows for easy sharing in iOS and Android apps.
 repository: https://github.com/xTheMasters/share_me/
-version: 0.0.17
 homepage: https://themonstersapp.com/
+version: 0.0.18
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
-  flutter: ">=2.5.0"
+  sdk: ^3.5.3
+  flutter: '>=3.3.0'
 
 dependencies:
   flutter:
@@ -16,7 +16,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -47,10 +47,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see
-  # https://flutter.dev/assets-and-images/#from-packages
+  # https://flutter.dev/to/asset-from-package
   #
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
+  # https://flutter.dev/to/resolution-aware-images
 
   # To add custom fonts to your plugin package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
@@ -70,4 +70,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts in packages, see
-  # https://flutter.dev/custom-fonts/#from-packages
+  # https://flutter.dev/to/font-from-package

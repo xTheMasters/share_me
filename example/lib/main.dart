@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ShareMeApp extends StatefulWidget {
-  const ShareMeApp({Key? key}) : super(key: key);
+  const ShareMeApp({super.key});
 
   @override
   State<ShareMeApp> createState() => _ShareMeAppState();
