@@ -1,3 +1,7 @@
+## 0.0.20
+
+- Fix Minor Issue
+
 ## 0.0.19
 
 - Fix Minor Issue

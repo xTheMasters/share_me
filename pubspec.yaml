@@ -2,7 +2,7 @@ name: share_me
 description: ShareMe is a Flutter plugin that allows for easy sharing in iOS and Android apps.
 repository: https://github.com/xTheMasters/share_me/
 homepage: https://themonstersapp.com/
-version: 0.0.19
+version: 0.0.20
 
 environment:
   sdk: ^3.5.3
